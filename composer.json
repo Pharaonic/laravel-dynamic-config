@@ -1,0 +1,95 @@
+{
+  "name": "pharaonic/laravel-dynamic-config",
+  "description": "Store Laravel configuration values in the database, globally or per identifier, and load them into the config repository with Config::dynamic()->load().",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "config",
+    "dynamic config",
+    "database config",
+    "settings",
+    "multi-tenant",
+    "pharaonic"
+  ],
+  "authors": [
+    {
+      "name": "Moamen Eltouny (Raggi)",
+      "email": "raggigroup@gmail.com"
+    }
+  ],
+  "support": {
+    "docs": "https://pharaonic.dev/packages/laravel/dynamic-config",
+    "issues": "https://github.com/Pharaonic/laravel-dynamic-config/issues",
+    "source": "https://github.com/Pharaonic/laravel-dynamic-config"
+  },
+  "require": {
+    "php": ">=8.0 <8.3",
+    "illuminate/config": "^9.33",
+    "illuminate/contracts": "^9.33",
+    "illuminate/database": "^9.33",
+    "illuminate/support": "^9.33"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.5",
+    "orchestra/testbench": "^7.0",
+    "pestphp/pest": "^1.23",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^9.6.33"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pharaonic\\Laravel\\DynamicConfig\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pharaonic\\Laravel\\DynamicConfig\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Pharaonic\\Laravel\\DynamicConfig\\DynamicConfigServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "@php vendor/bin/pest",
+    "analyse": "@php vendor/bin/phpstan analyse --memory-limit=1G",
+    "format": "@php vendor/bin/pint",
+    "format:check": "@php vendor/bin/pint --test",
+    "security": "@composer audit",
+    "check": [
+      "@composer validate --strict",
+      "@format:check",
+      "@analyse",
+      "@test",
+      "@security"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    },
+    "audit": {
+      "abandoned": "report"
+    },
+    "policy": {
+      "advisories": {
+        "block": false,
+        "ignore": {
+          "laravel/framework": "No fixed release within Laravel 9; the application chooses the framework release.",
+          "symfony/http-foundation": "No fixed release within Laravel 9; the application chooses the framework release.",
+          "symfony/mailer": "No fixed release within Laravel 9; the application chooses the framework release.",
+          "symfony/mime": "No fixed release within Laravel 9; the application chooses the framework release.",
+          "symfony/process": "No fixed release within Laravel 9; the application chooses the framework release.",
+          "symfony/routing": "No fixed release within Laravel 9; the application chooses the framework release.",
+          "symfony/yaml": "No fixed release within Laravel 9; the application chooses the framework release."
+        }
+      }
+    },
+    "sort-packages": true
+  },
+  "prefer-stable": true
+}

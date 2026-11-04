@@ -39,14 +39,21 @@ it('rejects a value it cannot store', function (mixed $value, string $type) {
 
     expect(DB::table('dynamic_configs')->count())->toBe(0);
 })->with([
-    'closure' => [fn () => fn () => 'secret', 'Closure'],
-    'object' => [fn () => new ArrayObject(['secret']), 'ArrayObject'],
-    'plain object' => [fn () => new stdClass, 'stdClass'],
-    'resource' => [fn () => STDIN, 'resource (stream)'],
-    'nan' => [fn () => NAN, 'non-finite float'],
-    'infinity' => [fn () => INF, 'non-finite float'],
-    'invalid UTF-8' => [fn () => "\xB1\x31", 'non-UTF-8 string'],
+    'object' => [new ArrayObject(['secret']), 'ArrayObject'],
+    'plain object' => [new stdClass, 'stdClass'],
+    'resource' => [STDIN, 'resource (stream)'],
+    'nan' => [NAN, 'non-finite float'],
+    'infinity' => [INF, 'non-finite float'],
+    'invalid UTF-8' => ["\xB1\x31", 'non-UTF-8 string'],
 ]);
+
+// A closure in a dataset is resolved by Pest, so it gets its own test.
+it('rejects a closure', function () {
+    expect(fn () => Config::dynamic('branch-12')->set('mail.secret', fn () => 'secret'))
+        ->toThrow(UnsupportedValueException::class, 'The dynamic config [mail.secret] of the [branch-12] scope cannot store a value of type [Closure]');
+
+    expect(DB::table('dynamic_configs')->count())->toBe(0);
+});
 
 it('names the nested key of an unsupported value', function () {
     Config::dynamic()->set('mail', ['from' => ['address' => new stdClass]]);

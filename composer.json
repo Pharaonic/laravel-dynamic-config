@@ -1,6 +1,6 @@
 {
   "name": "pharaonic/laravel-dynamic-config",
-  "description": "Store Laravel configuration values in the database, globally or per identifier, and load them into the config repository with Config::dynamic()->load().",
+  "description": "Store Laravel configuration values in the database, globally, per identifier or per model, and load them into the config repository with Config::dynamic()->load().",
   "type": "library",
   "license": "MIT",
   "keywords": [

@@ -21,7 +21,7 @@ config('mail.from.address');                                                  //
 A dynamic macro on Laravel's Config facade, with no extra facade and no custom getter for the final value.
 
 ### Global and Named Scopes {icon="grid"}
-Store values globally or per identifier or per Eloquent model, such as a company, a branch or a tenant.
+Store values globally, per identifier or per Eloquent model, such as a company, a branch or a tenant.
 
 ### Explicit Layering {icon="switch"}
 Each load applies one scope, and the scope you load last wins.

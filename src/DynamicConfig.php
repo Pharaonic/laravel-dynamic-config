@@ -139,23 +139,10 @@ final class DynamicConfig
             return $this->fetch();
         }
 
-        $store = $this->store();
-        $values = $store->get($key = $this->cacheKey());
-
-        if (is_array($values)) {
-            return $values;
-        }
-
-        $values = $this->fetch();
         $ttl = $this->setting('cache.ttl');
 
-        if (is_numeric($ttl)) {
-            $store->put($key, $values, (int) $ttl);
-        } else {
-            $store->forever($key, $values);
-        }
-
-        return $values;
+        /** @var array<array-key, mixed> */
+        return $this->store()->remember($this->cacheKey(), is_numeric($ttl) ? (int) $ttl : null, fn (): array => $this->fetch());
     }
 
     /**
@@ -163,19 +150,13 @@ final class DynamicConfig
      */
     private function fetch(): array
     {
-        $values = [];
-
         // Ordered by id, so the newest row wins while a concurrent duplicate
-        // of a global key still exists.
-        foreach ($this->scope()->orderBy('id')->pluck('value', 'key') as $key => $value) {
-            $values[$key] = is_string($value) ? json_decode($value, true, 512, JSON_THROW_ON_ERROR) : null;
-        }
-
-        // String order puts a parent key before its children, so load() sets
-        // "mail" before "mail.from.address".
-        ksort($values, SORT_STRING);
-
-        return $values;
+        // of a global key still exists. String key order puts a parent key
+        // before its children, so load() sets "mail" before "mail.from.address".
+        return $this->scope()->orderBy('id')->pluck('value', 'key')
+            ->map(fn (mixed $value): mixed => is_string($value) ? json_decode($value, true, 512, JSON_THROW_ON_ERROR) : null)
+            ->sortKeys(SORT_STRING)
+            ->all();
     }
 
     private function ensureSupported(string $key, mixed $value): void

@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## 10.0.0 - Unreleased
+## 11.0.0 - Unreleased
 
 ### Added
 
@@ -12,4 +12,4 @@ All notable changes to this project are documented here.
 
 ### Compatibility
 
-- Laravel 10.x on PHP 8.1, 8.2 or 8.3.
+- Laravel 11.x on PHP 8.2, 8.3 or 8.4.

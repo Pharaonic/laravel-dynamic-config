@@ -13,7 +13,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('identifier')->nullable();
                 $table->string('key');
-                $table->text('value');
+                $table->longText('value');
                 $table->timestamps();
 
                 // Most databases let several NULL identifiers share a key, so

@@ -39,7 +39,7 @@ The migration creates one row per key and scope:
 | `id` | big integer | Primary key. |
 | `identifier` | nullable string | `null` for the global scope, otherwise the scope's identifier. |
 | `key` | string | The dotted config key, such as `mail.from.address`. |
-| `value` | text | The value, encoded as JSON. |
+| `value` | long text | The value, encoded as JSON. |
 | `created_at`, `updated_at` | timestamps | When the key was first stored and last changed. |
 
 A unique index covers `identifier` and `key`. The package also keeps global keys unique on databases that let several `NULL` identifiers share a key.

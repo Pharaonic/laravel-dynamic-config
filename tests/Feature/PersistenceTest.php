@@ -147,7 +147,7 @@ it('uses the configured table and connection', function () {
         $table->id();
         $table->string('identifier')->nullable();
         $table->string('key');
-        $table->text('value');
+        $table->longText('value');
         $table->timestamps();
         $table->unique(['identifier', 'key']);
     });

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pharaonic\Laravel\DynamicConfig;
 
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -16,21 +17,36 @@ use Pharaonic\Laravel\DynamicConfig\Exceptions\UnsupportedValueException;
 
 /**
  * The persisted values of one dynamic config scope: the global scope
- * (identifier null) or one named identifier. Returned by Config::dynamic().
+ * (identifier null), one named identifier, or one saved model, stored as the
+ * identifier "{morph class}:{key}". Returned by Config::dynamic().
  *
  * get(), has() and all() read only this scope's stored values; load() merges
  * them into the config repository, where config() reads the final value.
  */
 final class DynamicConfig
 {
+    private ?string $identifier;
+
     /**
      * @internal Use Config::dynamic($identifier).
      */
-    public function __construct(private ?string $identifier = null)
+    public function __construct(string|Model|null $identifier = null)
     {
-        if ($identifier === '') {
-            throw new InvalidArgumentException('The dynamic config identifier must be null or a non-empty string.');
+        if ($identifier instanceof Model) {
+            $key = $identifier->getKey();
+
+            if (! $identifier->exists || (! is_int($key) && (! is_string($key) || $key === ''))) {
+                throw new InvalidArgumentException('The dynamic config model ['.$identifier::class.'] must be saved with a string or integer key.');
+            }
+
+            $identifier = $identifier->getMorphClass().':'.$key;
         }
+
+        if ($identifier === '') {
+            throw new InvalidArgumentException('The dynamic config identifier must be null, a non-empty string or a saved model.');
+        }
+
+        $this->identifier = $identifier;
     }
 
     /**

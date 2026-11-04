@@ -10,7 +10,7 @@ items:
     text: "`Config::dynamic()` extends Laravel's Config facade, and you read final values with `config()`."
   - icon: grid
     title: Global and Named Scopes
-    text: Store values for the whole application or per identifier, such as a company, a branch or a tenant.
+    text: Store values for the whole application or per identifier or per Eloquent model, such as a company, a branch or a tenant.
   - icon: switch
     title: Explicit Layering
     text: Each `load()` applies one scope, and the scope you load last wins.

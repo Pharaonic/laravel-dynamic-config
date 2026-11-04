@@ -11,7 +11,7 @@
   <a href="https://packagist.org/packages/pharaonic/laravel-dynamic-config" target="_blank"><img src="https://poser.pugx.org/pharaonic/laravel-dynamic-config/downloads" alt="Packagist Downloads"></a>
 </p>
 
-<h3 align="center">Store Laravel configuration values in the database, globally or per identifier, and load them into config() when you choose.</h3>
+<h3 align="center">Store Laravel configuration values in the database, globally, per identifier or per model, and load them into config() when you choose.</h3>
 <br>
 
 ## Installation
@@ -32,9 +32,10 @@ php artisan vendor:publish --tag=dynamic-config-config
 ```php
 use Illuminate\Support\Facades\Config;
 
-// Persist values: the global scope, or one identifier.
+// Persist values: the global scope, one identifier, or one saved model.
 Config::dynamic()->set('mail.from.address', 'global@example.com');
 Config::dynamic('branch-12')->set('mail.from.address', 'branch@example.com');
+Config::dynamic($company)->set('app.timezone', 'Africa/Cairo');
 
 // Apply them, in the order you want them to win.
 Config::dynamic()->load();
@@ -44,7 +45,7 @@ Config::dynamic('branch-12')->load();
 config('mail.from.address'); // branch@example.com
 ```
 
-Each `load()` merges one scope only, and nothing is loaded automatically. `get()`, `has()`, `all()` and `forget()` work on the values stored in that one scope; `config()` returns the resolved runtime value.
+A model scope is stored under the identifier `{morph class}:{key}`. Each `load()` merges one scope only, and nothing is loaded automatically. `get()`, `has()`, `all()` and `forget()` work on the values stored in that one scope; `config()` returns the resolved runtime value.
 
 Every scope is cached until it is written. Loaded values live only in memory, on top of Laravel's config cache. Long-running processes such as queue workers keep them between jobs, so load each scope where its requests or jobs start.
 

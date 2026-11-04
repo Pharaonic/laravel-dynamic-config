@@ -25,6 +25,10 @@ Some code calls `load()` while the application boots, before the `dynamic_config
 
 The macro is registered when the package's service provider boots. Don't call `Config::dynamic()` from a service provider's `register()` method; use `boot()`, a middleware or later code. If package discovery is disabled in your application, register `Pharaonic\Laravel\DynamicConfig\DynamicConfigServiceProvider` yourself.
 
+### A model's values disappeared after renaming its class
+
+Without a morph map, a model scope is stored under the model's class name. Register a morph map with the old class name as the alias, or update the `identifier` column of the old rows, as shown in [Model scopes](#scopes-and-layering).
+
 ### One job sees another job's values
 
 Queue workers keep the config repository between jobs. Restore it when each job ends, as shown in [Long-Running Processes](#long-running-processes).

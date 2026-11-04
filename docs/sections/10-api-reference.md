@@ -4,7 +4,7 @@
 
 | Method | Description | Returns |
 | --- | --- | --- |
-| `Config::dynamic(?string $identifier = null)` | The global scope (`null`) or the named scope. Also available as `config()->dynamic()`. Throws `InvalidArgumentException` for an empty identifier. | `DynamicConfig` |
+| `Config::dynamic(string\|Model\|null $identifier = null)` | The global scope (`null`), the named scope, or the scope of a saved Eloquent model (`{morph class}:{key}`). Also available as `config()->dynamic()`. Throws `InvalidArgumentException` for an empty identifier or a model that is not saved. | `DynamicConfig` |
 
 ### Scope methods
 

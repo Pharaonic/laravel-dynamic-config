@@ -24,7 +24,7 @@ card:
 
 seo:
   title: "{package.fullName} - Database-Backed Config Package"
-  description: "{package.name} is a Laravel package that stores config values in the database, globally or per identifier, and loads them into config() on demand. {package.downloadsShort}+ downloads, {package.license} licensed."
+  description: "{package.name} is a Laravel package that stores config values in the database, globally, per identifier or per model, and loads them into config() on demand. {package.downloadsShort}+ downloads, {package.license} licensed."
   keywords: laravel dynamic config, laravel database config, laravel settings, runtime config, multi-tenant config, config overrides, laravel package
   author: Pharaonic
   images:
@@ -38,7 +38,7 @@ seo:
 schema:
   "@type": SoftwareSourceCode
   name: "{package.name}"
-  description: "{package.name} is a Laravel package that stores configuration values in the database, globally or per identifier, and merges them into Laravel's config repository on demand."
+  description: "{package.name} is a Laravel package that stores configuration values in the database, globally, per identifier or per model, and merges them into Laravel's config repository on demand."
   image: "{package.cover}"
   codeRepository: "{package.githubUrl}"
   programmingLanguage: PHP

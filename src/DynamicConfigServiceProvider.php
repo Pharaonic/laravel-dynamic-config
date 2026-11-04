@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pharaonic\Laravel\DynamicConfig;
 
 use Illuminate\Config\Repository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 final class DynamicConfigServiceProvider extends ServiceProvider
@@ -18,7 +19,7 @@ final class DynamicConfigServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        Repository::macro('dynamic', fn (?string $identifier = null): DynamicConfig => new DynamicConfig($identifier));
+        Repository::macro('dynamic', fn (string|Model|null $identifier = null): DynamicConfig => new DynamicConfig($identifier));
 
         if ($this->app->runningInConsole()) {
             $this->publishes([

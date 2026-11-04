@@ -162,7 +162,7 @@ it('uses the configured table and connection', function () {
 
 it('rejects an empty identifier', function () {
     Config::dynamic('');
-})->throws(InvalidArgumentException::class, 'identifier must be null or a non-empty string');
+})->throws(InvalidArgumentException::class, 'identifier must be null, a non-empty string or a saved model');
 
 it('rejects an array of identifiers', function () {
     Config::dynamic(['company-1', 'branch-12']);

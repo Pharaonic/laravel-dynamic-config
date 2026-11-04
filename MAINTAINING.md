@@ -4,7 +4,7 @@ This file records package-specific maintainer facts that are safe to keep in the
 
 ## Purpose
 
-Persist Laravel configuration values in a database table, in a global scope (identifier null) or in named scopes, and merge one scope at a time into the config repository with `Config::dynamic($identifier)->load()`.
+Persist Laravel configuration values in a database table, in a global scope (identifier null), in named scopes, or in the scope of a saved Eloquent model, and merge one scope at a time into the config repository with `Config::dynamic($identifier)->load()`.
 
 ## Supported Laravel lines
 
@@ -18,7 +18,8 @@ None. The package is Laravel glue only: the config repository, the query builder
 
 Configuration keys (`pharaonic.dynamic-config.*`), publish tags, and registered Blade, Artisan, macro, and validation names are public API.
 
-- Macro: `Config::dynamic(?string $identifier = null)` on `Illuminate\Config\Repository`, returning `DynamicConfig`. An empty identifier throws `InvalidArgumentException`.
+- Macro: `Config::dynamic(string|Model|null $identifier = null)` on `Illuminate\Config\Repository`, returning `DynamicConfig`. An empty identifier, or a model that is not saved or has no string or integer key, throws `InvalidArgumentException`.
+- A model scope is the identifier `{getMorphClass()}:{getKey()}`, so `Config::dynamic($branch)` and `Config::dynamic('branch:12')` are the same scope. Changing this format orphans every stored model scope; there are no morph columns on purpose, to keep the `(identifier, key)` uniqueness rules.
 - `DynamicConfig`: `load()`, `get($key, $default = null)`, `has($key)`, `set($key, $value)`, `forget($key)`, and `all()`. Its constructor is internal.
 - `load()` merges only its own scope, never another identifier or the global scope. Associative arrays merge recursively into the current value; lists, scalars, null, and empty arrays replace it. Keys are applied in string order, so a parent key comes before its children. A later `load()` wins.
 - `get()`, `has()`, and `all()` read only the stored values of their scope, by exact key. `all()` is flat, keyed by the dotted key, in string order.

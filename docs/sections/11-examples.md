@@ -19,8 +19,8 @@ Load the global scope and the signed-in user's branch on every request, so mail,
       {
           Config::dynamic()->load();
 
-          if ($branch = $request->user()?->branch_id) {
-              Config::dynamic("branch-{$branch}")->load();
+          if ($branch = $request->user()?->branch) {
+              Config::dynamic($branch)->load();
           }
 
           return $next($request);
@@ -61,7 +61,7 @@ class BranchSettingsController extends Controller
 {
     public function edit(Branch $branch)
     {
-        $scope = Config::dynamic("branch-{$branch->id}");
+        $scope = Config::dynamic($branch);
 
         return view('branches.settings', [
             'branch' => $branch,
@@ -77,7 +77,7 @@ class BranchSettingsController extends Controller
             'from_name' => ['nullable', 'string', 'max:100'],
         ]);
 
-        $scope = Config::dynamic("branch-{$branch->id}");
+        $scope = Config::dynamic($branch);
 
         foreach (['mail.from.address' => 'from_address', 'mail.from.name' => 'from_name'] as $key => $field) {
             if (filled($data[$field] ?? null)) {

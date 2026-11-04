@@ -1,6 +1,6 @@
 ## Basic Usage
 
-Every call starts with `Config::dynamic()`, which returns one scope: the global scope when you pass nothing (or `null`), or a named scope when you pass an identifier.
+Every call starts with `Config::dynamic()`, which returns one scope: the global scope when you pass nothing (or `null`), a named scope when you pass an identifier, or the scope of a model when you pass a saved Eloquent model.
 
 ```php
 use Illuminate\Support\Facades\Config;

@@ -28,15 +28,14 @@ Load the global scope and the signed-in user's branch on every request, so mail,
   }
   ```
 
-- ===Kernel
+- ===Bootstrap
 
-  ```php title="app/Http/Kernel.php"
-  protected $middlewareGroups = [
-      'web' => [
-          // ...
+  ```php title="bootstrap/app.php"
+  ->withMiddleware(function (Middleware $middleware) {
+      $middleware->web(append: [
           \App\Http\Middleware\LoadBranchConfig::class,
-      ],
-  ];
+      ]);
+  })
   ```
 
 - ===Usage
